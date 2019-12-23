@@ -1,0 +1,4 @@
+# python modules to install through
+# pip3 install -r requirements.txt
+#
+paho-mqtt>=1.4.*
