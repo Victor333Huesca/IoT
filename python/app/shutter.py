@@ -4,8 +4,8 @@ from lib import sensor
 from lib.device import gpio
 from .utils import dump_as_json
 from threading import Condition as condition
-from threading import Timer as timer
 import json
+from threading import Timer as timer
 
 class shutter(actuator, sensor):
 	'''A smart-shutter.

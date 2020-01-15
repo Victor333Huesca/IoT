@@ -8,35 +8,35 @@ import json
 from threading import Timer as timer
 import random
 
-class temperature(sensor):
-	'''A smart-temperature-sensor.
+class luminosity(sensor):
+	'''A smart-luminosity-sensor.
 	The actuator part is to allow remote configuration.'''
 	def __init__(self, i2c_addr, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 		self._addr = i2c_addr
 		self._timer : timer = None
-		self._unit = 'C'
+		self._unit = 'lux'
 
-	def get_temp(self):
-		return random.uniform(19, 22)
+	def get_lumi(self):
+		return random.uniform(370, 420)
 
 	def status_frame(self):
 		return {
 			'unitID': self._id,
-			'value': self.get_temp(),
+			'value': self.get_lumi(),
 			'unit': self._unit
 		}
 
 	def do_loop(self):
 		# Take care to the closure here (ie. self._log)
-		if self._log: self._log.info(f'temperature {self._addr} enabled')
-		def temp():
+		if self._log: self._log.info(f'luminosity {self._addr} enabled')
+		def lumi():
 			status = self.status_frame()
-			if self._log: self._log.info(f'sending temperature: {self.subject()}: {dump_as_json(status)}')
+			if self._log: self._log.info(f'sending luminosity: {self.subject()}: {dump_as_json(status)}')
 			self.send(status)
-			self._timer = timer(10, temp)
+			self._timer = timer(10, lumi)
 			self._timer.start()
-		self._timer = timer(10, temp)
+		self._timer = timer(10, lumi)
 		self._timer.start()
 		self._backend.do_loop()
 
